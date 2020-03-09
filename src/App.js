@@ -69,7 +69,7 @@ export function App(props) {
             Health Tracker
           </Typography>
           <Button
-            //onClick={sendSMS} how do I call the function from the index.js file????
+            //onClick={sendSMS}
             color="inherit"
             style={{ flexGrow: 1, justifyContent: "flex-start" }}
           >

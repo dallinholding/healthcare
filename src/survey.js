@@ -22,13 +22,15 @@ import Morning from "@material-ui/icons/Brightness4";
 import Day from "@material-ui/icons/Brightness1";
 import Night from "@material-ui/icons/Brightness3";
 import { Link, Route } from "react-router-dom";
-import { db } from "./firebase";
+import { db, functions } from "./firebase";
 
 export default function Survey(props) {
   const [sleep, setSleep] = useState("");
   const [happiness, setHappiness] = useState(0);
   const [day, setDay] = useState(0);
   const [exercise, setExercise] = useState(0);
+  const [phoneNumber, setPhoneNumber] = useState(0);
+  const [message, setMessage] = useState(0);
 
   const handleSave = () => {
     db.collection("users")
@@ -46,6 +48,13 @@ export default function Survey(props) {
         setDay(0);
         setExercise(0);
       });
+  };
+
+  const sendMessage = () => {
+    const addMessage = functions.httpsCallable("sendTwilio");
+    addMessage({ to: phoneNumber, body: message }).then(function(result) {});
+    setPhoneNumber("");
+    setMessage("");
   };
 
   return (

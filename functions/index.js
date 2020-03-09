@@ -36,11 +36,15 @@ const sendSMS = (to, body) => {
 
 module.exports = {
   authOnCreate: functions.auth.user().onCreate(createProfile),
-  sendReminder: functions.pubsub.schedule("every day 09:00").onRun(context => {
-    sendSMS(
-      "8015413344",
-      "Hey, do your survey. https://healthcare-749ac.web.app"
-    );
-    return null;
+  // sendReminder: functions.pubsub.schedule("every day 09:00").onRun(context => {
+  //   sendSMS(
+  //     "8015413344",
+  //     "Hey, do your survey. https://healthcare-749ac.web.app"
+  //   );
+  //   return null;
+  // }),
+  sendTwilio: functions.https.onCall((data, context) => {
+    sendSMS(data.to, data.body);
+    return "SMS Sent";
   })
 };
