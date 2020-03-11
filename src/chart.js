@@ -42,8 +42,8 @@ export default function Chart(props) {
             //sleep: doc.data().sleep,
             sleep: parseInt(doc.data().sleep),
             happiness: doc.data().happiness,
-            day: doc.data().day,
-            exercise: doc.data().exercise,
+            day: parseInt(doc.data().day),
+            exercise: parseInt(doc.data().exercise),
             date: new Date(doc.data().date.seconds * 1000),
             id: doc.id
           };
@@ -152,33 +152,50 @@ export default function Chart(props) {
           />
         </Paper>
       </div>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.name}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      ); }
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          flexDirection: "column"
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center"
+          }}
+        >
+          <TableContainer
+            component={Paper}
+            style={{ padding: 12, marginTop: 30, width: "100%", maxWidth: 500 }}
+          >
+            <Table className={labels.table} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Survey Data</TableCell>
+                  <TableCell align="right">Sleep</TableCell>
+                  <TableCell align="right">Happiness</TableCell>
+                  <TableCell align="right">Scriptures</TableCell>
+                  <TableCell align="right">Exercise</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {surveys.map(d => (
+                  <TableRow key={d.id}>
+                    <TableCell component="th" scope="row">
+                      {moment(d.date).format("M/D/YY")}
+                    </TableCell>
+                    <TableCell align="right">{d.sleep}</TableCell>
+                    <TableCell align="right">{d.happiness}</TableCell>
+                    <TableCell align="right">{d.exercise}</TableCell>
+                    <TableCell align="right">{d.exercise}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
     </div>
   );
 }

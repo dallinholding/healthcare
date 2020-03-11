@@ -68,13 +68,13 @@ export function App(props) {
           >
             Health Tracker
           </Typography>
-          <Button
+          <Typography
             //onClick={sendSMS}
             color="inherit"
             style={{ flexGrow: 1, justifyContent: "flex-start" }}
           >
             Twilio Share
-          </Button>
+          </Typography>
           <Typography color="inherit" style={{ marginRight: "30px" }}>
             {user.email}
           </Typography>

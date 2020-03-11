@@ -29,8 +29,8 @@ export default function Survey(props) {
   const [happiness, setHappiness] = useState(0);
   const [day, setDay] = useState(0);
   const [exercise, setExercise] = useState(0);
-  const [phoneNumber, setPhoneNumber] = useState(0);
-  const [message, setMessage] = useState(0);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [message, setMessage] = useState("");
 
   const handleSave = () => {
     db.collection("users")
@@ -58,7 +58,9 @@ export default function Survey(props) {
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       <Paper
         style={{ padding: 12, marginTop: 30, width: "100%", maxWidth: 400 }}
       >
@@ -161,6 +163,84 @@ export default function Survey(props) {
           style={{ marginTop: 15 }}
         >
           Save
+        </Button>
+      </Paper>
+      <Number
+        style={{ padding: 12, marginTop: 30, width: "100%", maxWidth: 400 }}
+      />
+    </div>
+  );
+}
+
+export function Number(props) {
+  const [phoneNumber, setPhoneNumber] = useState(0);
+  const [message, setMessage] = useState(0);
+
+  const handleShare = () => {
+    db.collection("users")
+      .doc(props.user.uid)
+      .collection("number")
+      .add({
+        phoneNumber: phoneNumber,
+        message: message,
+        date: new Date()
+      })
+      .then(() => {
+        setMessage("");
+        setPhoneNumber("");
+      });
+  };
+
+  const sendMessage = () => {
+    const addMessage = functions.httpsCallable("sendTwilio");
+    addMessage({ to: phoneNumber, body: message }).then(function(result) {});
+    setPhoneNumber("");
+    setMessage("");
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        padding: 12,
+        marginTop: 30,
+        width: "100%",
+        maxWidth: 500
+      }}
+    >
+      <Paper
+        style={{ padding: 12, marginTop: 30, width: "100%", maxWidth: 400 }}
+      >
+        <Typography variant="h5" style={{ padding: 10 }}>
+          Share
+        </Typography>
+        <Typography style={{ padding: 10, fontSize: "small" }}>
+          Enter Your Message{""}
+        </Typography>
+        <TextField
+          fullWidth
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+        />
+        <Typography style={{ padding: 10, fontSize: "small", marginTop: 20 }}>
+          Phone Number{""}
+        </Typography>
+        <div style={{ display: "flex" }}>
+          <TextField
+            fullWidth
+            value={phoneNumber}
+            onChange={e => setPhoneNumber(e.target.value)}
+          />
+        </div>
+
+        <Button
+          onClick={sendMessage}
+          variant="outlined"
+          color="primary"
+          style={{ marginTop: 15 }}
+        >
+          Share
         </Button>
       </Paper>
     </div>
